@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+  <h2>Find student events and meetups</h2>
+  <p>
+    MeetHub is a platform where students can discover workshops, study sessions,
+    talks, sports activities and cultural events.
+  </p>
+
+  <a class="button" href="{{ url_for('events') }}">Explore Events</a>
+
+  {% if not user %}
+    <a class="button" href="{{ url_for('register') }}">Create Account</a>
+  {% endif %}
+</section>
+
+<section>
+  <h2>Featured Events</h2>
+
+  {% for event in events %}
+    <article>
+      <h3>{{ event.title }}</h3>
+      <p>{{ event.short_description }}</p>
+      <p><strong>Date:</strong> {{ event.date }}</p>
+      <p><strong>Location:</strong> {{ event.location }}</p>
+      <a href="{{ url_for('event_detail', event_id=event.id) }}">View Details</a>
+    </article>
+  {% else %}
+    <p>No events available yet.</p>
+  {% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+  <h2>Backoffice - Events</h2>
+  <a class="button" href="{{ url_for('admin_create_event') }}">Create Event</a>
+  <a class="button" href="{{ url_for('admin_categories') }}">Manage Categories</a>
+</section>
+
+<section>
+  <h2>Event Management</h2>
+
+  {% for event in events %}
+    <article>
+      <h3>{{ event.title }}</h3>
+      <p><strong>Date:</strong> {{ event.date }}</p>
+      <p><strong>Location:</strong> {{ event.location }}</p>
+      <p><strong>Category:</strong> {{ event.category.name }}</p>
+      <a href="{{ url_for('admin_edit_event', event_id=event.id) }}">Edit</a>
+      <a href="{{ url_for('admin_event_registrants', event_id=event.id) }}">Registered Users</a>
+      <form method="post" action="{{ url_for('admin_delete_event', event_id=event.id) }}"
+            onsubmit="return confirm('Delete this event? This cannot be undone.')">
+        <button type="submit">Delete</button>
+      </form>
+    </article>
+  {% else %}
+    <p>No events created yet.</p>
+  {% endfor %}
+</section>
+{% endblock %}

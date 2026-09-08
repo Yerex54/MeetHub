@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+  <a href="{{ url_for('events') }}">Back to Events</a>
+
+  <h2>{{ event.title }}</h2>
+  <p><strong>Category:</strong> {{ event.category.name }}</p>
+  <p>{{ event.short_description }}</p>
+</section>
+
+<section>
+  <h2>Event Information</h2>
+
+  <p><strong>Date:</strong> {{ event.date }}</p>
+  <p><strong>Time:</strong> {{ event.time }}</p>
+  <p><strong>Location:</strong> {{ event.location }}</p>
+  <p><strong>Organizer:</strong> {{ event.organizer }}</p>
+  <p><strong>Participants:</strong> {{ participants }} / {{ event.max_participants }}</p>
+</section>
+
+<section>
+  <h2>Description</h2>
+  <p>{{ event.description }}</p>
+</section>
+
+<section>
+  <h2>Registration</h2>
+
+  {% if user %}
+    {% if registered %}
+      <p>You are already registered for this event.</p>
+    {% elif participants >= event.max_participants %}
+      <p>This event is full.</p>
+    {% else %}
+      <form method="post" action="{{ url_for('register_event', event_id=event.id) }}">
+        <button type="submit">Register for Event</button>
+      </form>
+    {% endif %}
+  {% else %}
+    <p>You need to login to register for this event.</p>
+    <a class="button" href="{{ url_for('login') }}">Login</a>
+  {% endif %}
+</section>
+{% endblock %}

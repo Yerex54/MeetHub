@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+  <a href="{{ url_for('admin_events') }}">Back to Events</a>
+  <h2>Registered Users</h2>
+  <p>{{ event.title }}</p>
+</section>
+
+<section>
+  {% for registration in registrations %}
+    <article>
+      <h3>{{ registration.user.username }}</h3>
+      <p>{{ registration.user.email }}</p>
+    </article>
+  {% else %}
+    <p>No users registered for this event yet.</p>
+  {% endfor %}
+</section>
+{% endblock %}

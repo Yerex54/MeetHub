@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+  <h2>All Events</h2>
+  <p>Browse upcoming events and meetups around campus.</p>
+</section>
+
+<section>
+  <h2>Search and Filters</h2>
+
+  <form method="get">
+    <label for="search">Search event:</label>
+    <input type="text" id="search" name="search" value="{{ search }}" placeholder="Search by title">
+
+    <label for="category">Category:</label>
+    <select id="category" name="category">
+      <option value="">All categories</option>
+
+      {% for category in categories %}
+        <option value="{{ category.id }}" {% if selected_category == category.id|string %}selected{% endif %}>
+          {{ category.name }}
+        </option>
+      {% endfor %}
+    </select>
+
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" value="{{ event_date }}">
+
+    <label for="location">Location:</label>
+    <input type="text" id="location" name="location" value="{{ location }}" placeholder="Search by location">
+
+    <button type="submit">Search</button>
+  </form>
+</section>
+
+<section>
+  <h2>Event List</h2>
+
+  {% for event in events %}
+    <article>
+      <h3>{{ event.title }}</h3>
+      <p><strong>Category:</strong> {{ event.category.name }}</p>
+      <p><strong>Date:</strong> {{ event.date }}</p>
+      <p><strong>Location:</strong> {{ event.location }}</p>
+      <p>{{ event.short_description }}</p>
+      <a href="{{ url_for('event_detail', event_id=event.id) }}">View Details</a>
+    </article>
+  {% else %}
+    <p>No events found.</p>
+  {% endfor %}
+</section>
+{% endblock %}
